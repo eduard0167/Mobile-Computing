@@ -1,0 +1,11 @@
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.env
+*.venv
+*env/
+*venv/
+ENV/
+dist/
+src/images
