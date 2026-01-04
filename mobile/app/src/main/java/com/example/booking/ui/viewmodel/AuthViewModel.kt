@@ -33,7 +33,7 @@ class AuthViewModel(private val repository: UserRepository) : ViewModel() {
         viewModelScope.launch {
             _uiState.value = AuthUiState.Loading
             try {
-                val response = repository.login(LoginRequest(email, pass))
+                repository.login(LoginRequest(email, pass))
                 _uiState.value = AuthUiState.Success
                 fetchUser()
             } catch (e: Exception) {
@@ -46,7 +46,7 @@ class AuthViewModel(private val repository: UserRepository) : ViewModel() {
         viewModelScope.launch {
             _uiState.value = AuthUiState.Loading
             try {
-                val response = repository.signup(request)
+                repository.signup(request)
                 _uiState.value = AuthUiState.Success
                 fetchUser()
             } catch (e: Exception) {

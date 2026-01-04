@@ -26,16 +26,14 @@ class UserRepository(
 
     val users: Flow<List<UserEntity>> = dao.getAllUsers()
 
-    suspend fun login(request: LoginRequest): AuthResponse {
+    suspend fun login(request: LoginRequest) {
         val response = api.login(request)
         authToken = response.accessToken
-        return response
     }
 
-    suspend fun signup(request: RegisterRequest): AuthResponse {
+    suspend fun signup(request: RegisterRequest) {
         val response = api.signup(request)
         authToken = response.accessToken
-        return response
     }
 
     suspend fun getMe(): UserDto {

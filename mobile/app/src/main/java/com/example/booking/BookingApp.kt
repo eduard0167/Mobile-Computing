@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.LaunchedEffect
 import com.example.booking.ui.viewmodel.AuthViewModel
 import com.example.booking.ui.viewmodel.AuthUiState
+import androidx.compose.ui.Modifier
 
 enum class BookingScreen {
     Initial,
@@ -25,7 +26,8 @@ enum class BookingScreen {
 
 @Composable
 fun BookingApp(
-    viewModel: AuthViewModel = viewModel(factory = AuthViewModel.Factory)
+    viewModel: AuthViewModel = viewModel(factory = AuthViewModel.Factory),
+    modifier: Modifier = Modifier
 ) {
     val navController = rememberNavController()
     val uiState by viewModel.uiState.collectAsState()
@@ -41,7 +43,8 @@ fun BookingApp(
 
     NavHost(
         navController = navController,
-        startDestination = BookingScreen.Initial.name
+        startDestination = BookingScreen.Initial.name,
+        modifier = modifier
     ) {
         composable(route = BookingScreen.Initial.name) {
             InitialScreen(

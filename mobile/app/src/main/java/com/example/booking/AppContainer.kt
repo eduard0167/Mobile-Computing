@@ -1,7 +1,6 @@
 package com.example.booking
 
 import android.content.Context
-import androidx.room.Room
 import com.example.booking.data.local.AppDatabase
 import com.example.booking.data.remote.api.ApiService
 import retrofit2.Retrofit
@@ -25,11 +24,7 @@ class DefaultAppContainer(private val context: Context) : AppContainer {
     }
 
     private val database: AppDatabase by lazy {
-        Room.databaseBuilder(
-            context,
-            AppDatabase::class.java,
-            "upbooking_db"
-        ).build()
+        AppDatabase.getDatabase(context)
     }
 
     override val userRepository: UserRepository by lazy {

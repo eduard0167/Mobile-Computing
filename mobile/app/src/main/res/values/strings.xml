@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">booking</string>
+    <string name="home_tab">Home</string>
+    <string name="search_tab">Search</string>
+    <string name="reservations_tab">Reservations</string>
+    <string name="account_tab">My Account</string>
+    <string name="login_welcome_back">Welcome Back</string>
+    <string name="login_email_label">Email</string>
+    <string name="login_password_label">Password</string>
+    <string name="login_button">Login</string>
+    <string name="login_signup_prompt">Don\'t have an account? Sign up</string>
+    <string name="register_create_account">Create Account</string>
+    <string name="register_first_name_label">First Name</string>
+    <string name="register_last_name_label">Last Name</string>
+    <string name="register_email_label">Email</string>
+    <string name="register_phone_number_label">Phone Number</string>
+    <string name="register_faculty_label">Faculty</string>
+    <string name="register_year_label">Year</string>
+    <string name="register_password_label">Password</string>
+    <string name="register_confirm_password_label">Confirm Password</string>
+    <string name="register_button">Register</string>
+    <string name="register_login_prompt">Already have an account? Login</string>
 </resources>

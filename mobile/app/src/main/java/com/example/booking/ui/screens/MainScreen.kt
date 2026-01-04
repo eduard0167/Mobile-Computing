@@ -15,18 +15,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.booking.R
 
-sealed class MainScreenRoute(val route: String, val title: String, val icon: ImageVector) {
-    object Home : MainScreenRoute("home", "Home", Icons.Default.Home)
-    object Search : MainScreenRoute("search", "Search", Icons.Default.Search)
-    object Reservations : MainScreenRoute("reservations", "Reservations", Icons.Default.DateRange)
-    object Account : MainScreenRoute("account", "My Account", Icons.Default.Person)
+sealed class MainScreenRoute(val route: String, val titleResId: Int, val icon: ImageVector) {
+    object Home : MainScreenRoute("home", R.string.home_tab, Icons.Default.Home)
+    object Search : MainScreenRoute("search", R.string.search_tab, Icons.Default.Search)
+    object Reservations : MainScreenRoute("reservations", R.string.reservations_tab, Icons.Default.DateRange)
+    object Account : MainScreenRoute("account", R.string.account_tab, Icons.Default.Person)
 }
 
 @Composable
@@ -47,9 +49,10 @@ fun MainScreen(onLogout: () -> Unit) {
                 val currentDestination = navBackStackEntry?.destination
                 
                 items.forEach { screen ->
+                    val title = stringResource(id = screen.titleResId)
                     NavigationBarItem(
-                        icon = { Icon(screen.icon, contentDescription = screen.title) },
-                        label = { Text(screen.title) },
+                        icon = { Icon(screen.icon, contentDescription = title) },
+                        label = { Text(title) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         onClick = {
                             navController.navigate(screen.route) {
