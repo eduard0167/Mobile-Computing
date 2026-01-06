@@ -14,9 +14,7 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:5173",  # or wherever your React app runs
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
