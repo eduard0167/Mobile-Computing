@@ -18,23 +18,27 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.booking.R
 
 sealed class MainScreenRoute(val route: String, val titleResId: Int, val icon: ImageVector) {
     object Home : MainScreenRoute("home", R.string.home_tab, Icons.Default.Home)
     object Search : MainScreenRoute("search", R.string.search_tab, Icons.Default.Search)
-    object Reservations : MainScreenRoute("reservations", R.string.reservations_tab, Icons.Default.DateRange)
+    object Reservations :
+        MainScreenRoute("reservations", R.string.reservations_tab, Icons.Default.DateRange)
+
     object Account : MainScreenRoute("account", R.string.account_tab, Icons.Default.Person)
 }
 
 @Composable
 fun MainScreen(onLogout: () -> Unit) {
     val navController = rememberNavController()
-    
+
     val items = listOf(
         MainScreenRoute.Home,
         MainScreenRoute.Search,
@@ -47,7 +51,7 @@ fun MainScreen(onLogout: () -> Unit) {
             NavigationBar {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
-                
+
                 items.forEach { screen ->
                     val title = stringResource(id = screen.titleResId)
                     NavigationBarItem(
@@ -76,9 +80,28 @@ fun MainScreen(onLogout: () -> Unit) {
                     onSeeReservationsClick = { navController.navigate(MainScreenRoute.Reservations.route) }
                 )
             }
+
             composable(MainScreenRoute.Search.route) {
-                SearchRoomScreen()
+                SearchBuildingScreen(
+                    onBuildingSelected = { buildingId ->
+                        navController.navigate("search_room/$buildingId")
+                    }
+                )
             }
+
+            composable(
+                route = "search_room/{buildingId}",
+                arguments = listOf(navArgument("buildingId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val buildingId = backStackEntry.arguments?.getInt("buildingId") ?: 0
+                SearchRoomScreen(
+                    buildingId = buildingId,
+                    onRoomSelected = { roomId ->
+                        println("Selected room ID: $roomId")
+                    }
+                )
+            }
+
             composable(MainScreenRoute.Reservations.route) {
                 ReservationsScreen()
             }

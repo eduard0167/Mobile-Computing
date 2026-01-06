@@ -41,7 +41,8 @@ class MyAccountViewModel(private val repository: UserRepository) : ViewModel() {
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as BookingApplication)
+                val application =
+                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as BookingApplication)
                 val repository = application.container.userRepository
                 MyAccountViewModel(repository)
             }
