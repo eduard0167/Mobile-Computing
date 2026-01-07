@@ -1,7 +1,7 @@
 package com.example.booking.data.local.entities
 
-import androidx.room.PrimaryKey
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 enum class Role {
     STUDENT,

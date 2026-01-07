@@ -50,7 +50,7 @@ fun LoginScreen(
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.primary
         )
-        
+
         Spacer(modifier = Modifier.height(32.dp))
 
         OutlinedTextField(

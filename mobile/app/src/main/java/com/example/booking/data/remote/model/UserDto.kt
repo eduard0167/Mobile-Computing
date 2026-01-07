@@ -2,7 +2,7 @@ package com.example.booking.data.remote.model
 
 import com.google.gson.annotations.SerializedName
 
-data class UserDto (
+data class UserDto(
     val id: Int,
     val email: String,
     val firstName: String,

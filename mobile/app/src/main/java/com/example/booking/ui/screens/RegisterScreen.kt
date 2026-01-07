@@ -19,7 +19,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,10 +29,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.booking.R
-import com.example.booking.ui.theme.BookingTheme
 import com.example.booking.data.remote.model.RegisterRequest
-
-import androidx.compose.runtime.saveable.rememberSaveable
+import com.example.booking.ui.theme.BookingTheme
 
 @Composable
 fun RegisterScreen(
@@ -164,7 +162,7 @@ fun RegisterScreen(
         TextButton(onClick = onNavigateToLogin) {
             Text(stringResource(id = R.string.register_login_prompt))
         }
-        
+
         Spacer(modifier = Modifier.height(32.dp))
     }
 }

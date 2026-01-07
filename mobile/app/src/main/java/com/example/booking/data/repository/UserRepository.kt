@@ -1,15 +1,13 @@
 package com.example.booking.data.repository
 
+import android.content.Context
 import com.example.booking.data.local.dao.UserDao
 import com.example.booking.data.local.entities.UserEntity
 import com.example.booking.data.remote.api.ApiService
-import com.example.booking.data.remote.model.AuthResponse
 import com.example.booking.data.remote.model.LoginRequest
 import com.example.booking.data.remote.model.RegisterRequest
 import com.example.booking.data.remote.model.UserDto
 import kotlinx.coroutines.flow.Flow
-
-import android.content.Context
 
 class UserRepository(
     private val api: ApiService,
@@ -53,4 +51,3 @@ class UserRepository(
         authToken = null
     }
 }
-
