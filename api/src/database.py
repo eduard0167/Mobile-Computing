@@ -2,9 +2,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = "postgresql://postgres:postgrespw@localhost:5432"
+from config import settings
 
-engine = create_engine(DATABASE_URL)
+if settings.DATABASE_URL is None:
+    raise ValueError("DATABASE_URL is not set. Please add it to the .env file.")
+
+engine = create_engine(settings.DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
