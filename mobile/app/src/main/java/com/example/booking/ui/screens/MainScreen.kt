@@ -97,7 +97,7 @@ fun MainScreen(onLogout: () -> Unit) {
                 SearchRoomScreen(
                     buildingId = buildingId,
                     onRoomSelected = { roomId ->
-                        println("Selected room ID: $roomId")
+                        //TODO: Add rezervation
                     }
                 )
             }

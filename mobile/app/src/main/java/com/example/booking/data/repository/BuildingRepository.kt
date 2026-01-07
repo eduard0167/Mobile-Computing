@@ -22,11 +22,13 @@ class BuildingRepository(
 
     suspend fun addBuilding(building: CreateBuildingDto): Result<Building?> {
         return try {
+            val token = authToken ?: throw Exception("Not logged in")
             val imageParts = building.images.mapIndexedNotNull { index, uri ->
                 uriToMultipart(context, uri, "images", "image_$index.jpg")
             }
 
             val response = api.createBuilding(
+                token = "Bearer $token",
                 name = building.name.toRequestBody("text/plain".toMediaTypeOrNull()),
                 university = building.university.toRequestBody("text/plain".toMediaTypeOrNull()),
                 description = building.description?.toRequestBody("text/plain".toMediaTypeOrNull()),

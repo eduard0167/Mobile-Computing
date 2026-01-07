@@ -20,7 +20,7 @@ interface RoomService {
         @Part("name") name: RequestBody,
         @Part("buildingId") buildingId: RequestBody,
         @Part("capacity") capacity: RequestBody,
-        @Part("characteristics") characteristics: RequestBody?,
+        @Part("characteristics") characteristics: RequestBody,
         @Part images: List<MultipartBody.Part> = emptyList()
     ): Response<Room>
 

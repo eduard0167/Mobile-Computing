@@ -64,7 +64,7 @@ fun <T> SearchScreen(
                 .padding(16.dp)
                 .fillMaxSize()
         ) {
-            BuildingSearchBar(
+            SearchBar(
                 query = searchQuery,
                 onQueryChange = onSearchQueryChange
             )

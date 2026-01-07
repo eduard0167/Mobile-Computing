@@ -14,6 +14,7 @@ interface BuildingService {
     @Multipart
     @POST("/buildings/")
     suspend fun createBuilding(
+        @Header("Authorization") token: String,
         @Part("name") name: RequestBody,
         @Part("university") university: RequestBody,
         @Part("description") description: RequestBody?,

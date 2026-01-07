@@ -52,8 +52,8 @@ class RoomViewModel(
                 val result = repository.createRoom(room)
 
                 result
-                    .onSuccess { newBuilding ->
-                        newBuilding.let { rooms.add(it) }
+                    .onSuccess { newRoom ->
+                        newRoom.let { rooms.add(it) }
                     }
                     .onFailure { error ->
                         errorMessage = error.localizedMessage

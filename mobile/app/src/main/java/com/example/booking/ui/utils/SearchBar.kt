@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BuildingSearchBar(
+fun SearchBar(
     query: String,
     onQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier

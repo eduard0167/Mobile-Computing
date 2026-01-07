@@ -46,6 +46,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.booking.data.remote.model.CreateRoomDto
+import com.example.booking.ui.utils.ROOM_CHARACTERISTICS
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,11 +60,11 @@ fun AddRoomSheet(
     var selectedImages by remember { mutableStateOf<List<Uri>>(emptyList()) }
 
     val characteristics = remember {
-        mutableStateMapOf(
-            "Projector" to false,
-            "Whiteboard" to false,
-            "TV" to false
-        )
+        mutableStateMapOf<String, Boolean>().apply {
+            ROOM_CHARACTERISTICS.forEach { characteristic ->
+                put(characteristic, false)
+            }
+        }
     }
 
     val launcher = rememberLauncherForActivityResult(
@@ -209,6 +210,7 @@ fun AddRoomSheet(
                                 images = selectedImages
                             )
                         )
+                        onDismiss()
                     }
                 ) {
                     Text("Save")
