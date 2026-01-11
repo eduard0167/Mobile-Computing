@@ -37,9 +37,7 @@ class RoomScheduleViewModel(
 
     init {
         loadRoomReservations()
-        // We also need to react to date changes to update filtered list
         viewModelScope.launch {
-            // Combine logic could go here, or simple manual updates
         }
     }
 
