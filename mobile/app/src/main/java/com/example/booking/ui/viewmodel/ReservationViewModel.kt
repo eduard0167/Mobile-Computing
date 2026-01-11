@@ -30,6 +30,16 @@ class ReservationViewModel(
     private val _myReservations = MutableStateFlow<List<com.example.booking.data.model.Reservation>>(emptyList())
     val myReservations: StateFlow<List<com.example.booking.data.model.Reservation>> = _myReservations.asStateFlow()
 
+    private val _roomReservations = MutableStateFlow<List<com.example.booking.data.model.Reservation>>(emptyList())
+    val roomReservations: StateFlow<List<com.example.booking.data.model.Reservation>> = _roomReservations.asStateFlow()
+
+    private val _selectedDate = MutableStateFlow<java.time.LocalDate>(java.time.LocalDate.now())
+    val selectedDate: StateFlow<java.time.LocalDate> = _selectedDate.asStateFlow()
+
+    fun updateSelectedDate(date: java.time.LocalDate) {
+        _selectedDate.value = date
+    }
+
     fun createReservation(roomId: Int, event: String, startTime: String, endTime: String) {
         viewModelScope.launch {
             _uiState.value = ReservationUiState.Loading
@@ -59,12 +69,25 @@ class ReservationViewModel(
         }
     }
 
+    fun loadRoomReservations(roomId: Int) {
+        viewModelScope.launch {
+            _uiState.value = ReservationUiState.Loading
+            reservationRepository.getReservationsForRoom(roomId)
+                .onSuccess { list ->
+                    _roomReservations.value = list
+                    _uiState.value = ReservationUiState.Idle
+                }
+                .onFailure {
+                    _uiState.value = ReservationUiState.Error(it.message ?: "Failed to load room schedule")
+                }
+        }
+    }
+
     fun deleteReservation(reservationId: Int) {
         viewModelScope.launch {
             _uiState.value = ReservationUiState.Loading
             reservationRepository.deleteReservation(reservationId)
                 .onSuccess {
-                    // Reload list after deletion
                     loadMyReservations()
                 }
                 .onFailure {

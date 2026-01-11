@@ -1,5 +1,7 @@
 package com.example.booking.data.model
 
+import com.example.booking.data.remote.model.UserDto
+
 data class Reservation(
     val id: Int,
     val userId: Int,
@@ -10,6 +12,7 @@ data class Reservation(
     val status: String,
     val observations: String?,
     val room: Room?,
+    val user: UserDto?,
     val createdAt: String,
     val updatedAt: String
 )

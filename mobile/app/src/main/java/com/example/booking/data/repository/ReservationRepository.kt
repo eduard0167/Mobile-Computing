@@ -20,8 +20,6 @@ class ReservationRepository(
     suspend fun createReservation(reservation: CreateReservationDto): Result<Reservation> {
         return try {
             val token = authToken ?: throw Exception("Not logged in")
-            
-            // The API expects "Bearer <token>"
             val response = api.createReservation("Bearer $token", reservation)
             Result.success(response)
         } catch (e: Exception) {
@@ -49,6 +47,16 @@ class ReservationRepository(
             val token = authToken ?: throw Exception("Not logged in")
             api.deleteReservation("Bearer $token", reservationId)
             Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getReservationsForRoom(roomId: Int): Result<List<Reservation>> {
+        return try {
+            val token = authToken ?: throw Exception("Not logged in")
+            val response = api.getReservationsForRoom("Bearer $token", roomId)
+            Result.success(response)
         } catch (e: Exception) {
             Result.failure(e)
         }

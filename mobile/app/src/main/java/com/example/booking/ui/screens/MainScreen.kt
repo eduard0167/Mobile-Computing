@@ -77,7 +77,8 @@ fun MainScreen(onLogout: () -> Unit) {
             composable(MainScreenRoute.Home.route) {
                 HomeScreen(
                     onReserveClick = { navController.navigate(MainScreenRoute.Search.route) },
-                    onSeeReservationsClick = { navController.navigate(MainScreenRoute.Reservations.route) }
+                    onSeeReservationsClick = { navController.navigate(MainScreenRoute.Reservations.route) },
+                    onCheckAvailabilityClick = { navController.navigate("schedule_search") }
                 )
             }
 
@@ -109,6 +110,39 @@ fun MainScreen(onLogout: () -> Unit) {
             ) { backStackEntry ->
                 val roomId = backStackEntry.arguments?.getInt("roomId") ?: 0
                 CreateReservationScreen(roomId = roomId)
+            }
+            
+            // New Schedule Flow
+            composable(
+                 route = "schedule_search",
+            ) {
+                 SearchBuildingScreen(
+                    onBuildingSelected = { buildingId ->
+                        navController.navigate("schedule_room/$buildingId")
+                    }
+                )               
+            }
+            
+             composable(
+                route = "schedule_room/{buildingId}",
+                arguments = listOf(navArgument("buildingId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val buildingId = backStackEntry.arguments?.getInt("buildingId") ?: 0
+                SearchRoomScreen(
+                    buildingId = buildingId,
+                    onRoomSelected = { roomId ->
+                        // Navigate to VIEW SCHEDULE instead of create
+                        navController.navigate("room_schedule/$roomId")
+                    }
+                )
+            }
+            
+            composable(
+                route = "room_schedule/{roomId}",
+                arguments = listOf(navArgument("roomId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                 val roomId = backStackEntry.arguments?.getInt("roomId") ?: 0
+                 RoomScheduleScreen(roomId = roomId)
             }
 
             composable(MainScreenRoute.Reservations.route) {

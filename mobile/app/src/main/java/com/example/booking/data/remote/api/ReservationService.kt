@@ -2,7 +2,6 @@ package com.example.booking.data.remote.api
 
 import com.example.booking.data.model.Reservation
 import com.example.booking.data.remote.model.CreateReservationDto
-import com.example.booking.data.remote.model.ReservationUpdateDto
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -29,13 +28,6 @@ interface ReservationService {
         @Header("Authorization") token: String,
         @Path("roomId") roomId: Int
     ): List<Reservation>
-
-    @PATCH("reservations/{reservationId}")
-    suspend fun updateReservation(
-        @Header("Authorization") token: String,
-        @Path("reservationId") reservationId: Int,
-        @Body request: ReservationUpdateDto
-    ): Reservation
 
     @DELETE("reservations/{reservationId}")
     suspend fun deleteReservation(

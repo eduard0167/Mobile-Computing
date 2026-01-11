@@ -49,6 +49,7 @@ import com.example.booking.ui.theme.BookingTheme
 fun HomeScreen(
     onReserveClick: () -> Unit,
     onSeeReservationsClick: () -> Unit,
+    onCheckAvailabilityClick: () -> Unit,
     modifier: Modifier = Modifier,
     authViewModel: AuthViewModel = viewModel(factory = AuthViewModel.Factory)
 ) {
@@ -166,6 +167,12 @@ fun HomeScreen(
                 onClick = onSeeReservationsClick,
                 modifier = Modifier.weight(1f)
             )
+            HomeActionButton(
+                title = "Check Availability",
+                icon = Icons.Default.DateRange, // Reusing icon or find a better one like Event
+                onClick = onCheckAvailabilityClick,
+                modifier = Modifier.weight(1f)
+            )
         }
     }
 }
@@ -214,6 +221,7 @@ fun HomeScreenPreview() {
             HomeScreen(
                 onReserveClick = {},
                 onSeeReservationsClick = {},
+                onCheckAvailabilityClick = {},
                 modifier = Modifier.padding(innerPadding)
             )
         }
