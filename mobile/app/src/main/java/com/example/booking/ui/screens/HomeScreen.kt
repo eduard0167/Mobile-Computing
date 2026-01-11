@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.booking.ui.viewmodel.AuthViewModel
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Search
@@ -27,6 +29,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,8 +49,17 @@ import com.example.booking.ui.theme.BookingTheme
 fun HomeScreen(
     onReserveClick: () -> Unit,
     onSeeReservationsClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    authViewModel: AuthViewModel = viewModel(factory = AuthViewModel.Factory)
 ) {
+    val currentUser by authViewModel.currentUser.collectAsState()
+    
+    LaunchedEffect(Unit) {
+        if (currentUser == null) {
+            authViewModel.fetchUser()
+        }
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -66,7 +80,7 @@ fun HomeScreen(
                     color = MaterialTheme.colorScheme.secondary
                 )
                 Text(
-                    text = "Student",
+                    text = currentUser?.firstName ?: "Student",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
@@ -81,7 +95,7 @@ fun HomeScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "S",
+                    text = currentUser?.firstName?.firstOrNull()?.toString()?.uppercase() ?: "S",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer

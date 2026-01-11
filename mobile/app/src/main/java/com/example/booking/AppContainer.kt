@@ -8,6 +8,8 @@ import com.example.booking.data.remote.api.RoomService
 import com.example.booking.data.repository.BuildingRepository
 import com.example.booking.data.repository.RoomRepository
 import com.example.booking.data.repository.UserRepository
+import com.example.booking.data.remote.api.ReservationService
+import com.example.booking.data.repository.ReservationRepository
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -17,6 +19,8 @@ interface AppContainer {
     val buildingRepository: BuildingRepository
 
     val roomRepository: RoomRepository
+
+    val reservationRepository: ReservationRepository
 }
 
 class DefaultAppContainer(private val context: Context) : AppContainer {
@@ -51,5 +55,13 @@ class DefaultAppContainer(private val context: Context) : AppContainer {
 
     override val roomRepository: RoomRepository by lazy {
         RoomRepository(roomService, context)
+    }
+
+    private val reservationService: ReservationService by lazy {
+        retrofit.create(ReservationService::class.java)
+    }
+
+    override val reservationRepository: ReservationRepository by lazy {
+        ReservationRepository(reservationService, context)
     }
 }
