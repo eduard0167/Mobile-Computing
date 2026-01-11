@@ -12,41 +12,25 @@ import com.example.booking.ui.utils.RoomCard
 import com.example.booking.ui.utils.RoomFilterBar
 import com.example.booking.ui.utils.SearchScreen
 import com.example.booking.ui.viewmodel.RoomViewModel
+import androidx.compose.ui.platform.LocalContext
+import com.example.booking.BookingApplication
 
 @Composable
 fun SearchRoomScreen(
     buildingId: Int,
-    onRoomSelected: (Int) -> Unit,
-    viewModel: RoomViewModel = viewModel(factory = RoomViewModel.Factory)
+    onRoomSelected: (Int) -> Unit
 ) {
-    var searchQuery by remember { mutableStateOf("") }
+    val context = LocalContext.current
+    val application = context.applicationContext as BookingApplication
+    val viewModel: RoomViewModel = viewModel(
+        factory = RoomViewModel.provideFactory(application, buildingId)
+    )
+
     var showAddModal by remember { mutableStateOf(false) }
 
-    var minCapacity by remember { mutableStateOf(0) }
-    var selectedCharacteristics by remember { mutableStateOf(setOf<String>()) }
-
-    val rooms = viewModel.rooms
+    val filteredRooms = viewModel.filteredRooms
     val isLoading = viewModel.isLoading
     val errorMessage = viewModel.errorMessage
-
-    val filteredRooms = remember(rooms.size, minCapacity, selectedCharacteristics, searchQuery) {
-        rooms.filter { room ->
-            val nameOk = room.name.contains(searchQuery, ignoreCase = true)
-            val capacityOk = room.capacity >= minCapacity
-
-            val roomCharacteristics = room.characteristics
-                .split(",")
-                .map { it.trim() }
-                .toSet()
-            val characteristicsOk = selectedCharacteristics.all { it in roomCharacteristics }
-
-            nameOk && capacityOk && characteristicsOk
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.getRooms(buildingId)
-    }
 
     val emptyText = when {
         errorMessage != null -> "An error occurred: $errorMessage"
@@ -55,8 +39,8 @@ fun SearchRoomScreen(
 
     SearchScreen(
         title = "Select Room",
-        searchQuery = searchQuery,
-        onSearchQueryChange = { searchQuery = it },
+        searchQuery = viewModel.searchQuery,
+        onSearchQueryChange = { viewModel.searchQuery = it },
         items = filteredRooms,
         emptyText = emptyText,
         onAddClick = { showAddModal = true },
@@ -68,15 +52,15 @@ fun SearchRoomScreen(
         },
         header = {
             RoomFilterBar(
-                minCapacity = minCapacity,
-                onMinCapacityChange = { minCapacity = it },
-                selectedCharacteristics = selectedCharacteristics,
+                minCapacity = viewModel.minCapacity,
+                onMinCapacityChange = { viewModel.minCapacity = it },
+                selectedCharacteristics = viewModel.selectedCharacteristics,
                 onCharacteristicChange = { characteristic ->
-                    selectedCharacteristics =
-                        if (selectedCharacteristics.contains(characteristic)) {
-                            selectedCharacteristics - characteristic
+                    viewModel.selectedCharacteristics =
+                        if (viewModel.selectedCharacteristics.contains(characteristic)) {
+                            viewModel.selectedCharacteristics - characteristic
                         } else {
-                            selectedCharacteristics + characteristic
+                            viewModel.selectedCharacteristics + characteristic
                         }
                 }
             )

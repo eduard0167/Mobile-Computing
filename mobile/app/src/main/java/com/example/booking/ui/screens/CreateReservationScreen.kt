@@ -3,27 +3,39 @@ package com.example.booking.ui.screens
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.booking.ui.viewmodel.ReservationUiState
-import com.example.booking.ui.viewmodel.ReservationViewModel
+import com.example.booking.ui.utils.ReservationUiState
+import com.example.booking.ui.viewmodel.CreateReservationViewModel
+import com.example.booking.BookingApplication
 
 @Composable
 fun CreateReservationScreen(
     roomId: Int,
-    modifier: Modifier = Modifier,
-    viewModel: ReservationViewModel = viewModel(factory = ReservationViewModel.Factory)
+    modifier: Modifier = Modifier
 ) {
-    val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
+    val application = context.applicationContext as BookingApplication
+    val viewModel: CreateReservationViewModel = viewModel(
+        factory = CreateReservationViewModel.provideFactory(application, roomId)
+    )
+
+    val uiState by viewModel.uiState.collectAsState()
     
-    var event by remember { mutableStateOf("") }
-    var startTime by remember { mutableStateOf("2023-10-27T10:00:00") }
-    var endTime by remember { mutableStateOf("2023-10-27T12:00:00") }
+    // Using ViewModel state directly
+    val event = viewModel.event
+    val startTime = viewModel.startTime
+    val endTime = viewModel.endTime
 
     LaunchedEffect(uiState) {
         when (uiState) {
@@ -59,7 +71,7 @@ fun CreateReservationScreen(
                 
                 TextField(
                     value = event,
-                    onValueChange = { event = it },
+                    onValueChange = { viewModel.event = it },
                     label = { Text("Event Name") },
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -68,7 +80,7 @@ fun CreateReservationScreen(
                 
                 TextField(
                     value = startTime,
-                    onValueChange = { startTime = it },
+                    onValueChange = { viewModel.startTime = it },
                     label = { Text("Start Time (ISO 8601)") },
                     placeholder = { Text("YYYY-MM-DDTHH:MM:SS") },
                     modifier = Modifier.fillMaxWidth()
@@ -78,7 +90,7 @@ fun CreateReservationScreen(
                 
                 TextField(
                     value = endTime,
-                    onValueChange = { endTime = it },
+                    onValueChange = { viewModel.endTime = it },
                     label = { Text("End Time (ISO 8601)") },
                     placeholder = { Text("YYYY-MM-DDTHH:MM:SS") },
                     modifier = Modifier.fillMaxWidth()
@@ -88,7 +100,7 @@ fun CreateReservationScreen(
                 
                 Button(
                     onClick = { 
-                        viewModel.createReservation(roomId, event, startTime, endTime) 
+                        viewModel.createReservation() 
                     },
                     modifier = Modifier.fillMaxWidth(),
                     enabled = event.isNotBlank() && startTime.isNotBlank() && endTime.isNotBlank()

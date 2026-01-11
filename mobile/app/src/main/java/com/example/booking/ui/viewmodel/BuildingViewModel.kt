@@ -1,7 +1,9 @@
 package com.example.booking.ui.viewmodel
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -18,11 +20,29 @@ class BuildingViewModel(private val repository: BuildingRepository) : ViewModel(
     var buildings = mutableStateListOf<Building>()
         private set
 
+    var searchQuery by mutableStateOf("")
+
+    val filteredBuildings: List<Building>
+        get() {
+            return if (searchQuery.isBlank()) {
+                buildings
+            } else {
+                buildings.filter {
+                    it.name.contains(searchQuery, ignoreCase = true) ||
+                            it.university.contains(searchQuery, ignoreCase = true)
+                }
+            }
+        }
+
     var isLoading = mutableStateOf(false)
         private set
 
     var errorMessage: String? = null
         private set
+
+    init {
+        getBuildings()
+    }
 
     fun getBuildings() {
         viewModelScope.launch {

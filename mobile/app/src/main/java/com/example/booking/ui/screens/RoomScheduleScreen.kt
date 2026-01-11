@@ -8,16 +8,24 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.booking.BookingApplication
 import com.example.booking.data.model.Reservation
-import com.example.booking.ui.viewmodel.ReservationUiState
-import com.example.booking.ui.viewmodel.ReservationViewModel
+import com.example.booking.ui.utils.ReservationUiState
+import com.example.booking.ui.viewmodel.RoomScheduleViewModel
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -27,27 +35,18 @@ import java.util.Locale
 @Composable
 fun RoomScheduleScreen(
     roomId: Int,
-    modifier: Modifier = Modifier,
-    viewModel: ReservationViewModel = viewModel(factory = ReservationViewModel.Factory)
+    modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+    val application = context.applicationContext as BookingApplication
+    val viewModel: RoomScheduleViewModel = viewModel(
+        factory = RoomScheduleViewModel.provideFactory(application, roomId)
+    )
+
     val uiState by viewModel.uiState.collectAsState()
-    val roomReservations by viewModel.roomReservations.collectAsState()
+    val dailyReservations by viewModel.dailyReservations.collectAsState()
     val selectedDate by viewModel.selectedDate.collectAsState()
 
-    LaunchedEffect(roomId) {
-        viewModel.loadRoomReservations(roomId)
-    }
-
-    val dailyReservations = remember(roomReservations, selectedDate) {
-        roomReservations.filter {
-            try {
-                val start = LocalDateTime.parse(it.startTime)
-                start.toLocalDate() == selectedDate
-            } catch (e: Exception) {
-                false
-            }
-        }.sortedBy { it.startTime }
-    }
 
     Column(modifier = modifier.fillMaxSize().padding(16.dp)) {
         Row(
