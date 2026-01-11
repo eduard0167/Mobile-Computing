@@ -18,6 +18,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.booking.ui.viewmodel.AuthViewModel
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Help
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
@@ -169,7 +170,7 @@ fun HomeScreen(
             )
             HomeActionButton(
                 title = "Check Availability",
-                icon = Icons.Default.DateRange, // Reusing icon or find a better one like Event
+                icon = Icons.AutoMirrored.Filled.Help,
                 onClick = onCheckAvailabilityClick,
                 modifier = Modifier.weight(1f)
             )

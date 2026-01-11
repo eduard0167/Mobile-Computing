@@ -131,7 +131,6 @@ fun MainScreen(onLogout: () -> Unit) {
                 SearchRoomScreen(
                     buildingId = buildingId,
                     onRoomSelected = { roomId ->
-                        // Navigate to VIEW SCHEDULE instead of create
                         navController.navigate("room_schedule/$roomId")
                     }
                 )

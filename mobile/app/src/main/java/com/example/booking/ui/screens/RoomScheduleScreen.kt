@@ -33,8 +33,7 @@ fun RoomScheduleScreen(
     val uiState by viewModel.uiState.collectAsState()
     val roomReservations by viewModel.roomReservations.collectAsState()
     val selectedDate by viewModel.selectedDate.collectAsState()
-    
-    // Initial load
+
     LaunchedEffect(roomId) {
         viewModel.loadRoomReservations(roomId)
     }
@@ -95,7 +94,7 @@ fun DailyTimeline(reservations: List<Reservation>) {
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(0.dp) // Continuous
+        verticalArrangement = Arrangement.spacedBy(0.dp)
     ) {
         items(hours.size) { index ->
             val hour = hours[index]
@@ -116,7 +115,7 @@ fun TimelineHourSlot(timeLabel: String, reservations: List<Reservation>) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(IntrinsicSize.Min) // Allow growing
+            .height(IntrinsicSize.Min)
     ) {
         // Time Column
         Text(
@@ -151,7 +150,6 @@ fun TimelineHourSlot(timeLabel: String, reservations: List<Reservation>) {
             )
 
             if (reservations.isEmpty()) {
-                // Empty slot visual (optional, maybe just whitespace)
                 Spacer(modifier = Modifier.height(48.dp))
             } else {
                 reservations.forEach { res ->

@@ -7,7 +7,7 @@ data class Reservation(
     val userId: Int,
     val roomId: Int,
     val event: String,
-    val startTime: String, // Keep as String for now, ISO format
+    val startTime: String,
     val endTime: String,
     val status: String,
     val observations: String?,
