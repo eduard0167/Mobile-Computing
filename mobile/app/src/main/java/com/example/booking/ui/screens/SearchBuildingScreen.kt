@@ -1,7 +1,6 @@
 package com.example.booking.ui.screens
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -12,30 +11,22 @@ import com.example.booking.ui.utils.BuildingCard
 import com.example.booking.ui.utils.SearchScreen
 import com.example.booking.ui.viewmodel.BuildingViewModel
 
+import androidx.compose.ui.res.stringResource
+import com.example.booking.R
+
 @Composable
 fun SearchBuildingScreen(
     onBuildingSelected: (Int) -> Unit,
     viewModel: BuildingViewModel = viewModel(factory = BuildingViewModel.Factory)
 ) {
-    var searchQuery by remember { mutableStateOf("") }
     var showAddModal by remember { mutableStateOf(false) }
 
-    val buildings = viewModel.buildings
-    val filteredBuildings = buildings.filter {
-        it.name.contains(searchQuery, ignoreCase = true) ||
-                it.university.contains(searchQuery, ignoreCase = true)
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.getBuildings()
-    }
-
     SearchScreen(
-        title = "Select Building",
-        searchQuery = searchQuery,
-        onSearchQueryChange = { searchQuery = it },
-        items = filteredBuildings,
-        emptyText = "No buildings found",
+        title = stringResource(R.string.select_building_title),
+        searchQuery = viewModel.searchQuery,
+        onSearchQueryChange = { viewModel.searchQuery = it },
+        items = viewModel.filteredBuildings,
+        emptyText = stringResource(R.string.no_buildings_found),
         onAddClick = { showAddModal = true },
         itemContent = { building: Building ->
             BuildingCard(

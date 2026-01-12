@@ -17,10 +17,31 @@ import kotlinx.coroutines.launch
 
 class RoomViewModel(
     private val repository: RoomRepository,
+    private val buildingId: Int
 ) : ViewModel() {
 
     var rooms = mutableStateListOf<Room>()
         private set
+
+    var searchQuery by mutableStateOf("")
+    var minCapacity by mutableStateOf(0)
+    var selectedCharacteristics by mutableStateOf(setOf<String>())
+
+    val filteredRooms: List<Room>
+        get() {
+            return rooms.filter { room ->
+                val nameOk = room.name.contains(searchQuery, ignoreCase = true)
+                val capacityOk = room.capacity >= minCapacity
+
+                val roomCharacteristics = room.characteristics
+                    .split(",")
+                    .map { it.trim() }
+                    .toSet()
+                val characteristicsOk = selectedCharacteristics.all { it in roomCharacteristics }
+
+                nameOk && capacityOk && characteristicsOk
+            }
+        }
 
     var isLoading by mutableStateOf(true)
         private set
@@ -28,7 +49,11 @@ class RoomViewModel(
     var errorMessage by mutableStateOf<String?>(null)
         private set
 
-    fun getRooms(buildingId: Int) {
+    init {
+        getRooms()
+    }
+
+    private fun getRooms() {
         viewModelScope.launch {
             errorMessage = null
             try {
@@ -67,12 +92,13 @@ class RoomViewModel(
     }
 
     companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
+        fun provideFactory(
+            application: BookingApplication,
+            buildingId: Int
+        ): ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application =
-                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as BookingApplication)
                 val repository = application.container.roomRepository
-                RoomViewModel(repository)
+                RoomViewModel(repository, buildingId)
             }
         }
     }

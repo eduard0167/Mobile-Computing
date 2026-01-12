@@ -20,4 +20,50 @@
     <string name="register_confirm_password_label">Confirm Password</string>
     <string name="register_button">Register</string>
     <string name="register_login_prompt">Already have an account? Login</string>
+
+    <!-- Search Building Screen -->
+    <string name="select_building_title">Select Building</string>
+    <string name="no_buildings_found">No buildings found</string>
+
+    <!-- Search Room Screen -->
+    <string name="select_room_title">Select Room</string>
+    <string name="no_rooms_found">No rooms found</string>
+    <string name="error_occurred_prefix">An error occurred: %1$s</string>
+
+    <!-- My Reservations Screen -->
+    <string name="no_reservations_found">No reservations found.</string>
+    <string name="reservation_room_format">Room: %1$s</string>
+    <string name="unknown_room">Unknown Room</string>
+    <string name="reservation_start_format">Start: %1$s</string>
+    <string name="reservation_end_format">End: %1$s</string>
+    <string name="reservation_status_format">Status: %1$s</string>
+    <string name="cancel_reservation_button">Cancel Reservation</string>
+
+    <!-- Room Schedule Screen -->
+    <string name="previous_day_desc">Previous Day</string>
+    <string name="next_day_desc">Next Day</string>
+    <string name="booked_by_format">Booked by: %1$s</string>
+    <string name="unknown_user">Unknown</string>
+
+    <!-- Create Reservation Screen -->
+    <string name="reservation_created_toast">Reservation Created!</string>
+    <string name="reserve_room_title_format">Reserve Room %1$d</string>
+    <string name="event_name_label">Event Name</string>
+    <string name="start_time_label">Start Time (ISO 8601)</string>
+    <string name="datetime_placeholder">YYYY-MM-DDTHH:MM:SS</string>
+    <string name="end_time_label">End Time (ISO 8601)</string>
+    <string name="create_reservation_button">Create Reservation</string>
+    
+    <!-- Main Screen -->
+    <string name="check_availability_button">Check Availability</string>
+
+    <!-- Home Screen -->
+    <string name="home_welcome_back">Welcome back,</string>
+    <string name="home_student_fallback">Student</string>
+    <string name="home_initial_fallback">S</string>
+    <string name="home_banner_desc">UPB Building</string>
+    <string name="home_banner_text">Find your perfect study spot</string>
+    <string name="home_quick_actions">Quick Actions</string>
+    <string name="home_action_reserve">Reserve Room</string>
+    <string name="home_action_bookings">My Bookings</string>
 </resources>

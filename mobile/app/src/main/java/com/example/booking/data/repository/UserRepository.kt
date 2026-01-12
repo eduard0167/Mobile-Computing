@@ -37,6 +37,10 @@ class UserRepository(
     suspend fun getMe(): UserDto {
         val token = authToken ?: throw Exception("Not logged in")
         val userDto = api.getMe("Bearer $token")
+        
+        // Save user ID for other repositories to use
+        prefs.edit().putInt("user_id", userDto.id).apply()
+        
         val userEntity = userDto.toEntity()
         dao.insertAll(listOf(userEntity))
         return userDto
