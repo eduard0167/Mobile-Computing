@@ -3,18 +3,13 @@ package com.example.booking.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,7 +21,8 @@ import com.example.booking.BookingApplication
 import com.example.booking.data.model.Reservation
 import com.example.booking.ui.utils.ReservationUiState
 import com.example.booking.ui.viewmodel.RoomScheduleViewModel
-import java.time.LocalDate
+import com.example.booking.R
+import androidx.compose.ui.res.stringResource
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
@@ -55,7 +51,7 @@ fun RoomScheduleScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = { viewModel.updateSelectedDate(selectedDate.minusDays(1)) }) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Previous Day")
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.previous_day_desc))
             }
             
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -71,7 +67,7 @@ fun RoomScheduleScreen(
             }
             
             IconButton(onClick = { viewModel.updateSelectedDate(selectedDate.plusDays(1)) }) {
-                Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "Next Day")
+                Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = stringResource(R.string.next_day_desc))
             }
         }
 
@@ -172,7 +168,10 @@ fun TimelineHourSlot(timeLabel: String, reservations: List<Reservation>) {
                                 style = MaterialTheme.typography.bodySmall
                             )
                             Text(
-                                text = "Booked by: ${res.user?.firstName ?: "Unknown"}",
+                                text = stringResource(
+                                    R.string.booked_by_format,
+                                    res.user?.firstName ?: stringResource(R.string.unknown_user)
+                                ),
                                 style = MaterialTheme.typography.labelSmall
                             )
                         }

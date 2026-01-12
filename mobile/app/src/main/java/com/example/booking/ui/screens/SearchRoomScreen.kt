@@ -15,6 +15,9 @@ import com.example.booking.ui.viewmodel.RoomViewModel
 import androidx.compose.ui.platform.LocalContext
 import com.example.booking.BookingApplication
 
+import androidx.compose.ui.res.stringResource
+import com.example.booking.R
+
 @Composable
 fun SearchRoomScreen(
     buildingId: Int,
@@ -33,12 +36,12 @@ fun SearchRoomScreen(
     val errorMessage = viewModel.errorMessage
 
     val emptyText = when {
-        errorMessage != null -> "An error occurred: $errorMessage"
-        else -> "No rooms found"
+        errorMessage != null -> stringResource(R.string.error_occurred_prefix, errorMessage)
+        else -> stringResource(R.string.no_rooms_found)
     }
 
     SearchScreen(
-        title = "Select Room",
+        title = stringResource(R.string.select_room_title),
         searchQuery = viewModel.searchQuery,
         onSearchQueryChange = { viewModel.searchQuery = it },
         items = filteredRooms,

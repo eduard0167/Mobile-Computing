@@ -46,6 +46,8 @@ import androidx.compose.ui.unit.dp
 import com.example.booking.R
 import com.example.booking.ui.theme.BookingTheme
 
+import androidx.compose.ui.res.stringResource
+
 @Composable
 fun HomeScreen(
     onReserveClick: () -> Unit,
@@ -77,12 +79,12 @@ fun HomeScreen(
         ) {
             Column {
                 Text(
-                    text = "Welcome back,",
+                    text = stringResource(R.string.home_welcome_back),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.secondary
                 )
                 Text(
-                    text = currentUser?.firstName ?: "Student",
+                    text = currentUser?.firstName ?: stringResource(R.string.home_student_fallback),
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
@@ -97,7 +99,7 @@ fun HomeScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = currentUser?.firstName?.firstOrNull()?.toString()?.uppercase() ?: "S",
+                    text = currentUser?.firstName?.firstOrNull()?.toString()?.uppercase() ?: stringResource(R.string.home_initial_fallback),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
@@ -118,7 +120,7 @@ fun HomeScreen(
             Box(modifier = Modifier.fillMaxSize()) {
                 Image(
                     painter = painterResource(id = R.drawable.upb),
-                    contentDescription = "UPB Building",
+                    contentDescription = stringResource(R.string.home_banner_desc),
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
@@ -128,7 +130,7 @@ fun HomeScreen(
                         .background(Color.Black.copy(alpha = 0.3f))
                 )
                 Text(
-                    text = "Find your perfect study spot",
+                    text = stringResource(R.string.home_banner_text),
                     style = MaterialTheme.typography.titleLarge,
                     color = Color.White,
                     fontWeight = FontWeight.Medium,
@@ -143,7 +145,7 @@ fun HomeScreen(
 
 
         Text(
-            text = "Quick Actions",
+            text = stringResource(R.string.home_quick_actions),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.align(Alignment.Start)
@@ -157,19 +159,19 @@ fun HomeScreen(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             HomeActionButton(
-                title = "Reserve Room",
+                title = stringResource(R.string.home_action_reserve),
                 icon = Icons.Default.Search,
                 onClick = onReserveClick,
                 modifier = Modifier.weight(1f)
             )
             HomeActionButton(
-                title = "My Bookings",
+                title = stringResource(R.string.home_action_bookings),
                 icon = Icons.Default.DateRange,
                 onClick = onSeeReservationsClick,
                 modifier = Modifier.weight(1f)
             )
             HomeActionButton(
-                title = "Check Availability",
+                title = stringResource(R.string.check_availability_button),
                 icon = Icons.AutoMirrored.Filled.Help,
                 onClick = onCheckAvailabilityClick,
                 modifier = Modifier.weight(1f)

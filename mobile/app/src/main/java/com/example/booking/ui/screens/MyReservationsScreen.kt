@@ -15,6 +15,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.booking.ui.utils.ReservationUiState
 import com.example.booking.ui.viewmodel.MyReservationsViewModel
 
+import androidx.compose.ui.res.stringResource
+import com.example.booking.R
+
 @Composable
 fun MyReservationsScreen(
     modifier: Modifier = Modifier,
@@ -37,7 +40,7 @@ fun MyReservationsScreen(
         if (uiState is ReservationUiState.Loading) {
             CircularProgressIndicator()
         } else if (myReservations.isEmpty()) {
-             Text(text = "No reservations found.")
+             Text(text = stringResource(R.string.no_reservations_found))
         } else {
             androidx.compose.foundation.lazy.LazyColumn(
                 modifier = Modifier.fillMaxSize().padding(16.dp),
@@ -71,10 +74,16 @@ fun ReservationItem(
         ) {
             Text(text = reservation.event, style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.height(4.dp))
-            Text(text = "Room: ${reservation.room?.name ?: "Unknown Room"}", style = MaterialTheme.typography.bodyMedium)
-            Text(text = "Start: ${reservation.startTime}", style = MaterialTheme.typography.bodySmall)
-            Text(text = "End: ${reservation.endTime}", style = MaterialTheme.typography.bodySmall)
-            Text(text = "Status: ${reservation.status}", style = MaterialTheme.typography.bodySmall)
+            Text(
+                text = stringResource(
+                    R.string.reservation_room_format,
+                    reservation.room?.name ?: stringResource(R.string.unknown_room)
+                ),
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(text = stringResource(R.string.reservation_start_format, reservation.startTime), style = MaterialTheme.typography.bodySmall)
+            Text(text = stringResource(R.string.reservation_end_format, reservation.endTime), style = MaterialTheme.typography.bodySmall)
+            Text(text = stringResource(R.string.reservation_status_format, reservation.status), style = MaterialTheme.typography.bodySmall)
             
             Spacer(modifier = Modifier.height(8.dp))
             
@@ -82,7 +91,7 @@ fun ReservationItem(
                 onClick = onDelete,
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
             ) {
-                Text("Cancel Reservation")
+                Text(stringResource(R.string.cancel_reservation_button))
             }
         }
     }

@@ -16,6 +16,9 @@ import com.example.booking.ui.utils.ReservationUiState
 import com.example.booking.ui.viewmodel.CreateReservationViewModel
 import com.example.booking.BookingApplication
 
+import androidx.compose.ui.res.stringResource
+import com.example.booking.R
+
 @Composable
 fun CreateReservationScreen(
     roomId: Int,
@@ -36,7 +39,7 @@ fun CreateReservationScreen(
     LaunchedEffect(uiState) {
         when (uiState) {
             is ReservationUiState.Success -> {
-                Toast.makeText(context, "Reservation Created!", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, context.getString(R.string.reservation_created_toast), Toast.LENGTH_LONG).show()
                 viewModel.resetState()
             }
             is ReservationUiState.Error -> {
@@ -61,14 +64,14 @@ fun CreateReservationScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(text = "Reserve Room $roomId", style = MaterialTheme.typography.headlineMedium)
+                Text(text = stringResource(R.string.reserve_room_title_format, roomId), style = MaterialTheme.typography.headlineMedium)
                 
                 Spacer(modifier = Modifier.height(16.dp))
                 
                 TextField(
                     value = event,
                     onValueChange = { viewModel.event = it },
-                    label = { Text("Event Name") },
+                    label = { Text(stringResource(R.string.event_name_label)) },
                     modifier = Modifier.fillMaxWidth()
                 )
                 
@@ -77,8 +80,8 @@ fun CreateReservationScreen(
                 TextField(
                     value = startTime,
                     onValueChange = { viewModel.startTime = it },
-                    label = { Text("Start Time (ISO 8601)") },
-                    placeholder = { Text("YYYY-MM-DDTHH:MM:SS") },
+                    label = { Text(stringResource(R.string.start_time_label)) },
+                    placeholder = { Text(stringResource(R.string.datetime_placeholder)) },
                     modifier = Modifier.fillMaxWidth()
                 )
                 
@@ -87,8 +90,8 @@ fun CreateReservationScreen(
                 TextField(
                     value = endTime,
                     onValueChange = { viewModel.endTime = it },
-                    label = { Text("End Time (ISO 8601)") },
-                    placeholder = { Text("YYYY-MM-DDTHH:MM:SS") },
+                    label = { Text(stringResource(R.string.end_time_label)) },
+                    placeholder = { Text(stringResource(R.string.datetime_placeholder)) },
                     modifier = Modifier.fillMaxWidth()
                 )
                 
@@ -101,7 +104,7 @@ fun CreateReservationScreen(
                     modifier = Modifier.fillMaxWidth(),
                     enabled = event.isNotBlank() && startTime.isNotBlank() && endTime.isNotBlank()
                 ) {
-                    Text("Create Reservation")
+                    Text(stringResource(R.string.create_reservation_button))
                 }
             }
         }
